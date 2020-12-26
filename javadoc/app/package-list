@@ -1,0 +1,6 @@
+$dokka.format:html
+$dokka.linkExtension:html
+
+com.himenagi.summonshapes
+com.himenagi.summonshapes.commons
+com.himenagi.summonshapes.enumerators

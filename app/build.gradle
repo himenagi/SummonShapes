@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'org.jetbrains.dokka-android'
 }
 
 android {
@@ -29,6 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+}
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$rootDir/javadoc" // 出力先。好きな場所を指定。
 }
 
 dependencies {
