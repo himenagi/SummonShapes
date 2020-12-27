@@ -1,9 +1,12 @@
 package com.himenagi.summonshapes
 
 import android.content.Context
+import android.graphics.Canvas
 import android.os.Handler
 import android.view.View
+import com.himenagi.summonshapes.commons.GenericScene
 import com.himenagi.summonshapes.enumerators.SceneName
+import com.himenagi.summonshapes.gameplay.GamePlayScene
 
 class MainView constructor(context: Context) : View(context) {
     init {
@@ -24,7 +27,20 @@ class MainView constructor(context: Context) : View(context) {
      */
     private var sceneName = SceneName.GamePlay
 
-    public fun update() {
+    /**
+     * シーン構成
+     */
+    private val scenes = mapOf<SceneName, GenericScene>(
+            SceneName.GamePlay to GamePlayScene()
+    )
+
+    fun update() {
+        this.scenes[this.sceneName]?.update()
         invalidate()
+    }
+
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        this.scenes[this.sceneName]?.draw(canvas)
     }
 }
