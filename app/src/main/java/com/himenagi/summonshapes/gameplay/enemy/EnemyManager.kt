@@ -24,18 +24,18 @@ class EnemyManager {
     private var enemies = mutableListOf<Enemy>()
 
     fun update() {
-        this.enemies.forEach{ enemy -> enemy.update() }
+        this.enemies.forEach { it.update() }
 
         // 画面外に出た敵機を削除
         var displayMetrics = Resources.getSystem().displayMetrics
-        this.enemies.removeAll { enemy ->
-            enemy.pos.x + 60.0f < 0.0f - Constants.margin ||
-                    displayMetrics.widthPixels + Constants.margin < enemy.pos.x ||
-                    enemy.pos.y + 60.0f < 0.0f - Constants.margin ||
-                    displayMetrics.heightPixels + Constants.margin < enemy.pos.y }
+        this.enemies.removeAll {
+            it.pos.x + 60.0f < 0.0f - Constants.margin ||
+                    displayMetrics.widthPixels + Constants.margin < it.pos.x ||
+                    it.pos.y + 60.0f < 0.0f - Constants.margin ||
+                    displayMetrics.heightPixels + Constants.margin < it.pos.y }
     }
 
     fun draw(canvas: Canvas) {
-        this.enemies.forEach{ enemy -> enemy.draw(canvas) }
+        this.enemies.forEach { it.draw(canvas) }
     }
 }

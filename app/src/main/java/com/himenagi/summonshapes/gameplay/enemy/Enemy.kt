@@ -34,7 +34,7 @@ class Enemy(options: EnemyOptions) {
 
     fun draw(canvas: Canvas) {
         var paint = Paint()
-        paint.color = Color.argb(255, 0, 0, 0)
+        paint.color = Color.BLACK
         paint.strokeWidth = 8.0f
         paint.isAntiAlias = true
 

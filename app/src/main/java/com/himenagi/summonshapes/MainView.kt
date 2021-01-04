@@ -3,6 +3,7 @@ package com.himenagi.summonshapes
 import android.content.Context
 import android.graphics.Canvas
 import android.os.Handler
+import android.view.MotionEvent
 import android.view.View
 import com.himenagi.summonshapes.commons.GenericScene
 import com.himenagi.summonshapes.enumerators.SceneName
@@ -42,5 +43,22 @@ class MainView constructor(context: Context) : View(context) {
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         this.scenes[this.sceneName]?.draw(canvas)
+    }
+
+    override fun onTouchEvent(e: MotionEvent?): Boolean {
+        when(e?.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                this.scenes[this.sceneName]?.onDown(e)
+            }
+            MotionEvent.ACTION_MOVE -> {
+                this.scenes[this.sceneName]?.onMove(e)
+            }
+            MotionEvent.ACTION_UP -> {
+                this.scenes[this.sceneName]?.onUp(e)
+            }
+        }
+
+        invalidate()
+        return true
     }
 }
