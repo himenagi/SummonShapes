@@ -4,3 +4,5 @@ $dokka.linkExtension:html
 com.himenagi.summonshapes
 com.himenagi.summonshapes.commons
 com.himenagi.summonshapes.enumerators
+com.himenagi.summonshapes.gameplay
+com.himenagi.summonshapes.gameplay.enemy
