@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
 import android.view.MotionEvent
+import com.himenagi.summonshapes.commons.Utility
+import kotlin.math.abs
 
 /**
  * 線・図形と囲みに関する処理の管理クラス
@@ -89,8 +91,48 @@ class ShapeManager {
 
     fun isCollide(gameObject: GameObject) {
         // 線とオブジェクトとの当たり判定
-        if(false) {
-            this.lineEnd()
+        run {
+            this.dots.forEachIndexed { index, dot ->
+                if(index == 0) {
+                    return@forEachIndexed
+                }
+
+                var d1 = dot
+                var d2 = this.dots[index - 1]
+
+                // ベクトル作成
+                // v1: d1 - GameObject
+                // v2: d2 - GameObject
+                // v3: d1 - d2
+                var v1 = PointF(gameObject.pos.x - d1.x, gameObject.pos.y - d1.y)
+                var v2 = PointF(gameObject.pos.x - d2.x, gameObject.pos.y - d2.y)
+                var v3 = PointF( d2.x - d1.x, d2.y - d1.y )
+
+                // v3の単位ベクトルを求める
+                var nv3 = Utility.normalize(v3)
+
+                // d1とGameObjectの外積
+                var distance_projection = v1.x * nv3.y - nv3.x * v1.y
+
+                if(abs(distance_projection) <= 60.0f) {
+                    // 内積
+                    // dot1: v1 - v3
+                    // dot2: v2 - v3
+                    var dot1 = v1.x * v3.x + v1.y * v3.y
+                    var dot2 = v2.x * v3.x + v2.y * v3.y
+
+                    if(dot1 * dot2 <= 0.0f) {
+                        this.lineEnd()
+                        return@run
+                    }
+
+                    if(Utility.getVectorLength(v1) <= 60.0f ||
+                            Utility.getVectorLength(v2) <= 60.0f) {
+                        this.lineEnd()
+                        return@run
+                    }
+                }
+            }
         }
 
         // 図形がオブジェクトを囲んでいるか判定
@@ -116,7 +158,7 @@ class ShapeManager {
         var start = this.dots.first()
         var end = this.dots.last()
 
-        var distance = (start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y);
+        var distance = (start.x - end.x) * (start.x - end.x) + (start.y - end.y) * (start.y - end.y)
 
         if(distance <= 100.0f * 100.0f) {
             return Pair(0, this.dots.size - 1)
@@ -139,10 +181,10 @@ class ShapeManager {
             var d2 = listOf(oldDots[index - 1], dot)
 
             // 線分d1と線分d2の交差判定
-            var s1 = (d1[0].x - d1[1].x) * (d2[0].y - d1[0].y) - (d1[0].y - d1[1].y) * (d2[0].x - d1[0].x);
-            var t1 = (d1[0].x - d1[1].x) * (d2[1].y - d1[0].y) - (d1[0].y - d1[1].y) * (d2[1].x - d1[0].x);
-            var s2 = (d2[0].x - d2[1].x) * (d1[0].y - d2[0].y) - (d2[0].y - d2[1].y) * (d1[0].x - d2[0].x);
-            var t2 = (d2[0].x - d2[1].x) * (d1[1].y - d2[0].y) - (d2[0].y - d2[1].y) * (d1[1].x - d2[0].x);
+            var s1 = (d1[0].x - d1[1].x) * (d2[0].y - d1[0].y) - (d1[0].y - d1[1].y) * (d2[0].x - d1[0].x)
+            var t1 = (d1[0].x - d1[1].x) * (d2[1].y - d1[0].y) - (d1[0].y - d1[1].y) * (d2[1].x - d1[0].x)
+            var s2 = (d2[0].x - d2[1].x) * (d1[0].y - d2[0].y) - (d2[0].y - d2[1].y) * (d1[0].x - d2[0].x)
+            var t2 = (d2[0].x - d2[1].x) * (d1[1].y - d2[0].y) - (d2[0].y - d2[1].y) * (d1[1].x - d2[0].x)
 
             if(s1 * t1 < 0.0f && s2 * t2 < 0.0f) {
                 return Pair(index, this.dots.size - 2)
