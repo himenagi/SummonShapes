@@ -6,6 +6,7 @@ import android.graphics.PointF
 import android.util.DisplayMetrics
 import com.himenagi.summonshapes.commons.Constants
 import com.himenagi.summonshapes.enumerators.EnemyMoveType
+import java.util.*
 
 /**
  * 敵機管理クラス
@@ -21,7 +22,7 @@ class EnemyManager {
         enemies.add(Enemy(options))
     }
 
-    private var enemies = mutableListOf<Enemy>()
+    var enemies = mutableListOf<Enemy>()
 
     fun update() {
         this.enemies.forEach { it.update() }

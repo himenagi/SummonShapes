@@ -37,7 +37,7 @@ class ShapeManager {
         var d1 = this.dots.last()
         var d2 = PointF(e.getX(0), e.getY(0))
 
-        var distance = (d1.x - d2.x) * (d1.x - d2.x) + (d1.y - d2.y) * (d1.y - d2.y);
+        var distance = (d1.x - d2.x) * (d1.x - d2.x) + (d1.y - d2.y) * (d1.y - d2.y)
 
         if(distance >= 50.0f * 50.0f) {
             this.dots.add(d2)
@@ -84,6 +84,18 @@ class ShapeManager {
         this.shape.forEachIndexed() { index, dot ->
             var prevDot = if(index == 0) this.shape.last() else this.shape[index - 1]
             canvas.drawLine(prevDot.x, prevDot.y, dot.x, dot.y, paint)
+        }
+    }
+
+    fun isCollide(gameObject: GameObject) {
+        // 線とオブジェクトとの当たり判定
+        if(false) {
+            this.lineEnd()
+        }
+
+        // 図形がオブジェクトを囲んでいるか判定
+        if(false) {
+            gameObject.surrounded()
         }
     }
 
