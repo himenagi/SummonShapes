@@ -26,13 +26,8 @@ class EnemyManager {
     fun update() {
         this.enemies.forEach { it.update() }
 
-        // 画面外に出た敵機を削除
-        var displayMetrics = Resources.getSystem().displayMetrics
-        this.enemies.removeAll {
-            it.pos.x + 60.0f < 0.0f - Constants.margin ||
-                    displayMetrics.widthPixels + Constants.margin < it.pos.x ||
-                    it.pos.y + 60.0f < 0.0f - Constants.margin ||
-                    displayMetrics.heightPixels + Constants.margin < it.pos.y }
+        // 死んでいる敵を消す
+        this.enemies.removeAll { !it.isLive }
     }
 
     fun draw(canvas: Canvas) {
